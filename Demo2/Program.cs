@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Demo2.Model;
 
 namespace Demo2
 {
@@ -54,7 +55,7 @@ namespace Demo2
         {
             if (!File.Exists("vehicles.json"))
             {
-                ErrorMessage("\n! ERROR: The JSON file was not found!");
+                PrintMessage("\n! ERROR: The JSON file was not found!", MessageTypeEnum.Error);
                 return Enumerable.Empty<Vehicle>().ToList();
             }
             var jsonString = await File.ReadAllTextAsync("vehicles.json");
@@ -64,7 +65,7 @@ namespace Demo2
             var bikes = formattedItems.Bikes;
             var vehicles = new List<Vehicle>();
             Console.WriteLine("....LOADING VEHICLES.....");
-            SuccessMessage("\n+ Vehicles successfully loaded +");
+            PrintMessage("\n+ Vehicles successfully loaded +", MessageTypeEnum.Success);
             vehicles.AddRange(cars);
             vehicles.AddRange(trucks);
             vehicles.AddRange(bikes);
@@ -82,14 +83,14 @@ namespace Demo2
             //string jsonString = JsonConvert.SerializeObject(items, Formatting.Indented);
             var jsonString = JsonSerializer.Serialize(items, new JsonSerializerOptions { WriteIndented = true });
             await File.WriteAllTextAsync("vehicles.json", jsonString);
-            SuccessMessage("\n+ Saved successfully in JSON file +");
+            PrintMessage("\n+ Saved successfully in JSON file +", MessageTypeEnum.Success);
         }
 
         private static ICollection<Vehicle> LoadFromXML()
         {
             if (!File.Exists("vehicles.xml"))
             {
-                ErrorMessage("\n! ERROR: The XML file was not found!");
+                PrintMessage("\n! ERROR: The XML file was not found!", MessageTypeEnum.Error);
                 return Enumerable.Empty<Vehicle>().ToList();
             }
             var doc = XDocument.Load("vehicles.xml");
@@ -118,7 +119,7 @@ namespace Demo2
                     Gears = Convert.ToInt32(x.Element("gears").Value)
                 }).ToList();
             Console.WriteLine("....LOADING VEHICLES.....");
-            SuccessMessage("\n+ Vehicles successfully loaded +");
+            PrintMessage("\n+ Vehicles successfully loaded +", MessageTypeEnum.Success);
             var vehicles = new List<Vehicle>();
             vehicles.AddRange(cars);
             vehicles.AddRange(trucks);
@@ -152,7 +153,7 @@ namespace Demo2
                             new XElement("trucks", trucks),
                             new XElement("bikes", bikes)));
             doc.Save("vehicles.xml");
-            SuccessMessage("\n+ Saved successfully in XML file +");
+            PrintMessage("\n+ Saved successfully in XML file +", MessageTypeEnum.Success);
         }
 
         private static void DeleteVehicle(ICollection<Vehicle> vehicles)
@@ -161,17 +162,17 @@ namespace Demo2
             var stringID = Console.ReadLine();
             if (!Int32.TryParse(stringID, out int id))
             {
-                ErrorMessage("! ERROR: ID must be an int value!");
+                PrintMessage("! ERROR: ID must be an int value!", MessageTypeEnum.Error);
                 return;
             }
             var vehicleToRemove = vehicles.Where(x => x.ID == id).FirstOrDefault();
             if (vehicleToRemove == null)
             {
-                ErrorMessage("! ERROR: No vehicles with ID: " + id);
+                PrintMessage("! ERROR: No vehicles with ID: " + id, MessageTypeEnum.Error);
                 return;
             }
             vehicles.Remove(vehicleToRemove);
-            SuccessMessage("+ Vehicle successfully removed +");
+            PrintMessage("+ Vehicle successfully removed +", MessageTypeEnum.Success);
         }
 
         private static void ModifyVehicle(ICollection<Vehicle> vehicles)
@@ -180,13 +181,13 @@ namespace Demo2
             var stringID = Console.ReadLine();
             if (!Int32.TryParse(stringID, out int id))
             {
-                ErrorMessage("! ERROR: ID must be an int value!");
+                PrintMessage("! ERROR: ID must be an int value!", MessageTypeEnum.Error);
                 return;
             }
             var vehicle = vehicles.Where(x => x.ID == id).FirstOrDefault();
             if (vehicle == null)
             {
-                ErrorMessage("! ERROR: No vehicle with the ID: " + id);
+                PrintMessage("! ERROR: No vehicle with the ID: " + id, MessageTypeEnum.Error);
             }
             else
             {
@@ -218,14 +219,14 @@ namespace Demo2
             var stringGears = Console.ReadLine();
             if (!Int32.TryParse(stringGears, out int gears))
             {
-                ErrorMessage("! ERROR:  must be an int value!");
+                PrintMessage("! ERROR:  must be an int value!", MessageTypeEnum.Error);
                 return;
             }
             var bike = (Bike)v;
             bike.Maker = maker;
             bike.Plate = plate;
             bike.Gears = gears;
-            SuccessMessage("+ Bike modified correctly +");
+            PrintMessage("+ Bike modified correctly +", MessageTypeEnum.Success);
         }
 
         private static void ModifyTruck(Vehicle v)
@@ -239,14 +240,14 @@ namespace Demo2
             var stringAxes = Console.ReadLine();
             if (!Int32.TryParse(stringAxes, out int axes))
             {
-                ErrorMessage("! ERROR:  must be an int value!");
+                PrintMessage("! ERROR:  must be an int value!", MessageTypeEnum.Error);
                 return;
             }
             var truck = (Truck)v;
             truck.Maker = maker;
             truck.Plate = plate;
             truck.Axes = axes;
-            SuccessMessage("+ Truck modified correctly +");
+            PrintMessage("+ Truck modified correctly +", MessageTypeEnum.Success);
 
         }
 
@@ -261,14 +262,14 @@ namespace Demo2
             var stringSeats = Console.ReadLine();
             if (!Int32.TryParse(stringSeats, out int seats))
             {
-                ErrorMessage("! ERROR:  must be an int value!");
+                PrintMessage("! ERROR:  must be an int value!", MessageTypeEnum.Error);
                 return;
             }
             var car = (Car)v;
             car.Maker = maker;
             car.Plate = plate;
             car.Seats = seats;
-            SuccessMessage("+ Car modified correctly +");
+            PrintMessage("+ Car modified correctly +", MessageTypeEnum.Success);
         }
 
         private static void PrintSpecificVehicles(ICollection<Vehicle> vehicles)
@@ -297,7 +298,7 @@ namespace Demo2
             var bikes = vehicles.Where(x => x is Bike);
             if (!bikes.Any())
             {
-                ErrorMessage("! NO Bikes Found");
+                PrintMessage("! NO Bikes Found", MessageTypeEnum.Error);
             }
             else
             {
@@ -315,7 +316,7 @@ namespace Demo2
             var trucks = vehicles.Where(x => x is Truck);
             if (!trucks.Any())
             {
-                ErrorMessage("! NO Trucks Found");
+                PrintMessage("! NO Trucks Found", MessageTypeEnum.Error);
             }
             else
             {
@@ -333,7 +334,7 @@ namespace Demo2
             var cars = vehicles.Where(x => x is Car);
             if (!cars.Any())
             {
-                ErrorMessage("! NO Cars Found");
+                PrintMessage("! NO Cars Found", MessageTypeEnum.Error);
             }
             else
             {
@@ -350,7 +351,7 @@ namespace Demo2
             Console.WriteLine("");
             if (!vehicles.Any())
             {
-                ErrorMessage("! NO Vehicles Found");
+                PrintMessage("! NO Vehicles Found", MessageTypeEnum.Error);
                 return;
             }
             Console.WriteLine("\n------------LIST OF VEHICLES-----------\n");
@@ -391,12 +392,12 @@ namespace Demo2
             var stringGears = Console.ReadLine();
             if (!Int32.TryParse(stringGears, out int gears))
             {
-                ErrorMessage("! ERROR: Gears must be an int value!");
+                PrintMessage("! ERROR: Gears must be an int value!", MessageTypeEnum.Error);
                 return;
             }
             var bike = new Bike(id, maker, plate, gears);
             vehicles.Add(bike);
-            SuccessMessage("+ Added Correctly +");
+            PrintMessage("+ Added Correctly +", MessageTypeEnum.Success);
         }
 
         private static void AddTruck(ICollection<Vehicle> vehicles)
@@ -410,12 +411,12 @@ namespace Demo2
             var stringAxes = Console.ReadLine();
             if (!Int32.TryParse(stringAxes, out int axes))
             {
-                ErrorMessage("! ERROR: Axes must be an int value!");
+                PrintMessage("! ERROR: Axes must be an int value!", MessageTypeEnum.Error);
                 return;
             }
             var truck = new Truck(id, maker, plate, axes);
             vehicles.Add(truck);
-            SuccessMessage("+ Added Correctly +");
+            PrintMessage("+ Added Correctly +", MessageTypeEnum.Success);
         }
 
         private static void AddCar(ICollection<Vehicle> vehicles)
@@ -429,12 +430,12 @@ namespace Demo2
             var stringSeats = Console.ReadLine();
             if (!Int32.TryParse(stringSeats, out int seats))
             {
-                ErrorMessage("! ERROR: Seats must be an int value!");
+                PrintMessage("! ERROR: Seats must be an int value!", MessageTypeEnum.Error);
                 return;
             }
             var car = new Car(id, maker, plate, seats);
             vehicles.Add(car);
-            SuccessMessage("+ Added Correctly +");
+            PrintMessage("+ Added Correctly +", MessageTypeEnum.Success);
         }
 
         private static int GetNewID(ICollection<Vehicle> vehicles)
@@ -442,17 +443,20 @@ namespace Demo2
             return vehicles?.Count == 0 ? 1 : vehicles.Max(x => x.ID) + 1;
         }
 
-        private static void SuccessMessage(string s)
+        private static void PrintMessage(string s, MessageTypeEnum messageType)
         {
-            Console.ForegroundColor = ConsoleColor.Green;
+            switch (messageType)
+            {
+                case MessageTypeEnum.Error:
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    break;
+                case MessageTypeEnum.Success:
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    break;
+                default:
+                    break;
+            }
             Console.WriteLine(s);
-            Console.ResetColor();
-        }
-
-        private static void ErrorMessage(string error)
-        {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine(error);
             Console.ResetColor();
         }
 
