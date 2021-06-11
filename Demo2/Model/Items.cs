@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace Demo2
+namespace Demo2.Model
 {
     public class Items
     {

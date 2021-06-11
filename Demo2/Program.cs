@@ -16,7 +16,7 @@ namespace Demo2
             // Load from XML file
             //var vehicles = LoadFromXML();
             // Load from JSON file
-            var vehicles = await LoadToJSONAsync();
+            var vehicles = await LoadFromJSONAsync();
             while (true)
             {
                 var choice = MenuLoop();
@@ -51,7 +51,7 @@ namespace Demo2
             }
         }
 
-        private static async Task<ICollection<Vehicle>> LoadToJSONAsync()
+        private static async Task<ICollection<Vehicle>> LoadFromJSONAsync()
         {
             if (!File.Exists("vehicles.json"))
             {
