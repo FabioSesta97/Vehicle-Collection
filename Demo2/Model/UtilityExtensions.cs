@@ -16,5 +16,17 @@ namespace Demo2.Model
                 vehicles.Remove(vehicle);
             }
         }
+
+        public static void PrintAllOfType<T>(this ICollection<Vehicle> vehicles, out IEnumerable<Vehicle> vehiclesToPrint) where T : Vehicle
+        {
+            vehiclesToPrint = vehicles.ToList().Where(x => x is T);
+            if (vehiclesToPrint.Any())
+            {
+                foreach (var vehicle in vehiclesToPrint)
+                {
+                    Console.WriteLine(vehicle.ToString());
+                }
+            }
+        }
     }
 }

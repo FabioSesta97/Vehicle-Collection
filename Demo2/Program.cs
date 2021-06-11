@@ -329,55 +329,31 @@ namespace Demo2
 
         private static void PrintBikes(ICollection<Vehicle> vehicles)
         {
-            Console.WriteLine("");
-            var bikes = vehicles.Where(x => x is Bike);
+            PrintMessage("\n------------LIST OF BIKES-----------\n", MessageTypeEnum.Info);
+            vehicles.PrintAllOfType<Bike>(out IEnumerable<Vehicle> bikes);
             if (!bikes.Any())
             {
                 PrintMessage("! NO Bikes Found", MessageTypeEnum.Error);
-            }
-            else
-            {
-                PrintMessage("\n------------LIST OF BIKES-----------\n", MessageTypeEnum.Info);
-                foreach (var item in bikes)
-                {
-                    Console.WriteLine(item.ToString());
-                }
             }
         }
 
         private static void PrintTrucks(ICollection<Vehicle> vehicles)
         {
-            Console.WriteLine("");
-            var trucks = vehicles.Where(x => x is Truck);
+            PrintMessage("\n------------LIST OF TRUCKS-----------\n", MessageTypeEnum.Info);
+            vehicles.PrintAllOfType<Truck>(out IEnumerable<Vehicle> trucks);
             if (!trucks.Any())
             {
                 PrintMessage("! NO Trucks Found", MessageTypeEnum.Error);
-            }
-            else
-            {
-                PrintMessage("\n------------LIST OF TRUCKS-----------\n", MessageTypeEnum.Info);
-                foreach (var item in trucks)
-                {
-                    Console.WriteLine(item.ToString());
-                }
             }
         }
 
         private static void PrintCars(ICollection<Vehicle> vehicles)
         {
-            Console.WriteLine("");
-            var cars = vehicles.Where(x => x is Car);
+            PrintMessage("\n------------LIST OF CARS-----------\n", MessageTypeEnum.Info);
+            vehicles.PrintAllOfType<Car>(out IEnumerable<Vehicle> cars);
             if (!cars.Any())
             {
-                PrintMessage("! NO Cars Found", MessageTypeEnum.Error);
-            }
-            else
-            {
-                PrintMessage("\n------------LIST OF CARS-----------\n", MessageTypeEnum.Info);
-                foreach (var item in cars)
-                {
-                    Console.WriteLine(item.ToString());
-                }
+                PrintMessage("\n! NO Cars Found", MessageTypeEnum.Error);
             }
         }
 
