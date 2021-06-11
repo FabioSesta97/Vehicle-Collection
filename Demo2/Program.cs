@@ -480,6 +480,9 @@ namespace Demo2
                 case MessageTypeEnum.Success:
                     Console.ForegroundColor = ConsoleColor.Green;
                     break;
+                case MessageTypeEnum.Info:
+                    Console.ForegroundColor = ConsoleColor.DarkCyan;
+                    break;
                 default:
                     break;
             }
