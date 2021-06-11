@@ -44,15 +44,24 @@ namespace Demo2
                         DeleteTypeOfVehicles(vehicles);
                         break;
                     case '7':
-                        SaveToXML(vehicles);
+                        ResetList(vehicles);
                         break;
                     case '8':
+                        SaveToXML(vehicles);
+                        break;
+                    case '9':
                         await SaveToJsonAsync(vehicles);
                         break;
                     default:
                         break;
                 }
             }
+        }
+
+        private static void ResetList(ICollection<Vehicle> vehicles)
+        {
+            vehicles.Clear();
+            PrintMessage("+ ALL vehicles successfully removed +", MessageTypeEnum.Success);
         }
 
         private static void DeleteTypeOfVehicles(ICollection<Vehicle> vehicles)
@@ -97,19 +106,19 @@ namespace Demo2
 
         private static async Task<ICollection<Vehicle>> LoadFromJSONAsync()
         {
-            if (!File.Exists("vehicles.json"))
+            if (!File.Exists("F:\\ProgettiVS\\Demo2\\Demo2\\Files\\vehicles.json"))
             {
                 PrintMessage("\n! ERROR: The JSON file was not found!", MessageTypeEnum.Error);
                 return Enumerable.Empty<Vehicle>().ToList();
             }
-            var jsonString = await File.ReadAllTextAsync("vehicles.json");
+            var jsonString = await File.ReadAllTextAsync("F:\\ProgettiVS\\Demo2\\Demo2\\Files\\vehicles.json");
             var formattedItems = JsonSerializer.Deserialize<Items>(jsonString);
             var cars = formattedItems.Cars;
             var trucks = formattedItems.Trucks;
             var bikes = formattedItems.Bikes;
             var vehicles = new List<Vehicle>();
             PrintMessage("....LOADING VEHICLES.....", MessageTypeEnum.Info);
-            PrintMessage("\n+ Vehicles successfully loaded +", MessageTypeEnum.Success);
+            PrintMessage("\n+ List successfully loaded +", MessageTypeEnum.Success);
             vehicles.AddRange(cars);
             vehicles.AddRange(trucks);
             vehicles.AddRange(bikes);
@@ -126,18 +135,18 @@ namespace Demo2
             };
             //string jsonString = JsonConvert.SerializeObject(items, Formatting.Indented);
             var jsonString = JsonSerializer.Serialize(items, new JsonSerializerOptions { WriteIndented = true });
-            await File.WriteAllTextAsync("vehicles.json", jsonString);
+            await File.WriteAllTextAsync("F:\\ProgettiVS\\Demo2\\Demo2\\Files\\vehicles.json", jsonString);
             PrintMessage("\n+ Saved successfully in JSON file +", MessageTypeEnum.Success);
         }
 
         private static ICollection<Vehicle> LoadFromXML()
         {
-            if (!File.Exists("vehicles.xml"))
+            if (!File.Exists("F:\\ProgettiVS\\Demo2\\Demo2\\Files\\vehicles.xml"))
             {
                 PrintMessage("\n! ERROR: The XML file was not found!", MessageTypeEnum.Error);
                 return Enumerable.Empty<Vehicle>().ToList();
             }
-            var doc = XDocument.Load("vehicles.xml");
+            var doc = XDocument.Load("F:\\ProgettiVS\\Demo2\\Demo2\\Files\\vehicles.xml");
             var cars = doc.Root.Element("cars").Elements("car").
                 Select(x => new Car
                 {
@@ -196,7 +205,7 @@ namespace Demo2
                             new XElement("cars", cars),
                             new XElement("trucks", trucks),
                             new XElement("bikes", bikes)));
-            doc.Save("vehicles.xml");
+            doc.Save("F:\\ProgettiVS\\Demo2\\Demo2\\Files\\vehicles.xml");
             PrintMessage("\n+ Saved successfully in XML file +", MessageTypeEnum.Success);
         }
 
@@ -485,17 +494,18 @@ namespace Demo2
         private static int MenuLoop()
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("\n*---------------------MENU---------------------*");
-            Console.WriteLine("* Press 1 to ADD a vehicle                     *");
-            Console.WriteLine("* Press 2 to PRINT all vehicles                *");
-            Console.WriteLine("* Press 3 to PRINT a specific type of vehicle  *");
-            Console.WriteLine("* Press 4 to MODIFY a vehicle                  *");
-            Console.WriteLine("* Press 5 to REMOVE a vehicle                  *");
-            Console.WriteLine("* Press 6 to REMOVE a specific type of vehicle *");
-            Console.WriteLine("* Press 7 to SAVE the list on XML file         *");
-            Console.WriteLine("* Press 8 to SAVE the list on JSON file        *");
-            Console.WriteLine("* Press 0 to EXIT                              *");
-            Console.WriteLine("*----------------------------------------------*");
+            Console.WriteLine("\n*-----------------------MENU-----------------------*");
+            Console.WriteLine("* Press 1 to ADD a vehicle                           *");
+            Console.WriteLine("* Press 2 to PRINT all vehicles                      *");
+            Console.WriteLine("* Press 3 to PRINT a specific type of vehicle        *");
+            Console.WriteLine("* Press 4 to MODIFY a vehicle                        *");
+            Console.WriteLine("* Press 5 to REMOVE a vehicle                        *");
+            Console.WriteLine("* Press 6 to REMOVE a specific type of vehicle       *");
+            Console.WriteLine("* Press 7 to RESET the list and remove all vehicles  *");
+            Console.WriteLine("* Press 8 to SAVE the list on XML file               *");
+            Console.WriteLine("* Press 9 to SAVE the list on JSON file              *");
+            Console.WriteLine("* Press 0 to EXIT                                    *");
+            Console.WriteLine("*----------------------------------------------------*");
             Console.Write("Choice --->\t");
             var choice = Console.ReadKey().KeyChar;
             Console.ResetColor();
