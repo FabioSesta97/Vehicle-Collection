@@ -23,6 +23,7 @@ namespace Demo2
                 switch (choice)
                 {
                     case '0':
+                        PrintMessage("\nThanks for using this App... See you soon!", MessageTypeEnum.Info);
                         return;
                     case '1':
                         AddVehicle(vehicles);
@@ -56,7 +57,7 @@ namespace Demo2
 
         private static void DeleteTypeOfVehicles(ICollection<Vehicle> vehicles)
         {
-            Console.WriteLine("\nPress 1 to DEL all CARS, 2 to DEL all TRUCKS, 3 to DEL all BIKES:");
+            PrintMessage("\nPress 1 to DEL all CARS, 2 to DEL all TRUCKS, 3 to DEL all BIKES:", MessageTypeEnum.Info);
             switch (Console.ReadKey().KeyChar)
             {
                 case '1':
@@ -101,7 +102,7 @@ namespace Demo2
             var trucks = formattedItems.Trucks;
             var bikes = formattedItems.Bikes;
             var vehicles = new List<Vehicle>();
-            Console.WriteLine("....LOADING VEHICLES.....");
+            PrintMessage("....LOADING VEHICLES.....", MessageTypeEnum.Info);
             PrintMessage("\n+ Vehicles successfully loaded +", MessageTypeEnum.Success);
             vehicles.AddRange(cars);
             vehicles.AddRange(trucks);
@@ -155,7 +156,7 @@ namespace Demo2
                     Plate = x.Element("plate")?.Value,
                     Gears = Convert.ToInt32(x.Element("gears").Value)
                 }).ToList();
-            Console.WriteLine("....LOADING VEHICLES.....");
+            PrintMessage("....LOADING VEHICLES.....", MessageTypeEnum.Info);
             PrintMessage("\n+ Vehicles successfully loaded +", MessageTypeEnum.Success);
             var vehicles = new List<Vehicle>();
             vehicles.AddRange(cars);
@@ -195,7 +196,7 @@ namespace Demo2
 
         private static void DeleteVehicle(ICollection<Vehicle> vehicles)
         {
-            Console.WriteLine("\nInsert the ID of the vehicle you want to delete:");
+            PrintMessage("\nInsert the ID of the vehicle you want to delete:", MessageTypeEnum.Info);
             var stringID = Console.ReadLine();
             if (!Int32.TryParse(stringID, out int id))
             {
@@ -214,7 +215,7 @@ namespace Demo2
 
         private static void ModifyVehicle(ICollection<Vehicle> vehicles)
         {
-            Console.WriteLine("\nInsert the vehicle's ID that you want to modify: ");
+            PrintMessage("\nInsert the vehicle's ID that you want to modify: ", MessageTypeEnum.Info);
             var stringID = Console.ReadLine();
             if (!Int32.TryParse(stringID, out int id))
             {
@@ -247,7 +248,7 @@ namespace Demo2
 
         private static void ModifyBike(Vehicle v)
         {
-            Console.WriteLine("\n********* Modifying a BIKE *********");
+            PrintMessage("\n********* Modifying a BIKE *********", MessageTypeEnum.Info);
             GetCommonProperties(out string maker, out string plate);
             Console.WriteLine("Insert the number of gears:");
             var stringGears = Console.ReadLine();
@@ -265,7 +266,7 @@ namespace Demo2
 
         private static void ModifyTruck(Vehicle v)
         {
-            Console.WriteLine("\n********* Modifying a TRUCK *********");
+            PrintMessage("\n********* Modifying a TRUCK *********", MessageTypeEnum.Info);
             GetCommonProperties(out string maker, out string plate);
             Console.WriteLine("Insert the number of axes:");
             var stringAxes = Console.ReadLine();
@@ -284,7 +285,7 @@ namespace Demo2
 
         private static void ModifyCar(Vehicle v)
         {
-            Console.WriteLine("\n********* Modifying a CAR *********");
+            PrintMessage("\n********* Modifying a CAR *********", MessageTypeEnum.Info);
             GetCommonProperties(out string maker, out string plate);
             Console.WriteLine("Insert the number of seats:");
             var stringSeats = Console.ReadLine();
@@ -302,7 +303,7 @@ namespace Demo2
 
         private static void PrintSpecificVehicles(ICollection<Vehicle> vehicles)
         {
-            Console.WriteLine("\nPress 1 to print CARS, 2 to print TRUCKS, 3 to print BIKES:");
+            PrintMessage("\nPress 1 to print CARS, 2 to print TRUCKS, 3 to print BIKES:", MessageTypeEnum.Info);
             var choice = Console.ReadKey();
             switch (choice.KeyChar)
             {
@@ -330,7 +331,7 @@ namespace Demo2
             }
             else
             {
-                Console.WriteLine("\n------------LIST OF BIKES-----------\n");
+                PrintMessage("\n------------LIST OF BIKES-----------\n", MessageTypeEnum.Info);
                 foreach (var item in bikes)
                 {
                     Console.WriteLine(item.ToString());
@@ -348,7 +349,7 @@ namespace Demo2
             }
             else
             {
-                Console.WriteLine("\n------------LIST OF TRUCKS-----------\n");
+                PrintMessage("\n------------LIST OF TRUCKS-----------\n", MessageTypeEnum.Info);
                 foreach (var item in trucks)
                 {
                     Console.WriteLine(item.ToString());
@@ -366,7 +367,7 @@ namespace Demo2
             }
             else
             {
-                Console.WriteLine("\n------------LIST OF CARS-----------\n");
+                PrintMessage("\n------------LIST OF CARS-----------\n", MessageTypeEnum.Info);
                 foreach (var item in cars)
                 {
                     Console.WriteLine(item.ToString());
@@ -382,7 +383,7 @@ namespace Demo2
                 PrintMessage("! NO Vehicles Found", MessageTypeEnum.Error);
                 return;
             }
-            Console.WriteLine("\n------------LIST OF VEHICLES-----------\n");
+            PrintMessage("\n------------LIST OF VEHICLES-----------\n", MessageTypeEnum.Info);
             foreach (var item in vehicles)
             {
                 Console.WriteLine(item.ToString());
@@ -391,7 +392,7 @@ namespace Demo2
 
         private static void AddVehicle(ICollection<Vehicle> vehicles)
         {
-            Console.WriteLine("\nPress 1 to add a CAR, 2 to add a TRUCK, 3 to add a BIKE:");
+            PrintMessage("\nPress 1 to add a CAR, 2 to add a TRUCK, 3 to add a BIKE:", MessageTypeEnum.Info);
             var typeOfVehicle = Console.ReadKey();
             switch (typeOfVehicle.KeyChar)
             {
