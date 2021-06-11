@@ -61,28 +61,34 @@ namespace Demo2
             switch (Console.ReadKey().KeyChar)
             {
                 case '1':
-                    var cars = vehicles.ToList().Where(x => x is Car);
-                    foreach (var car in cars)
+                    var car = vehicles.ToList().OfType<Car>().FirstOrDefault();
+                    if (car == null)
                     {
-                        vehicles.Remove(car);
+                        PrintMessage("\n! Error: Already no cars in the list!", MessageTypeEnum.Error);
+                        return;
                     }
-                    PrintMessage("+ Removed correctly +", MessageTypeEnum.Success);
+                    vehicles.RemoveAllOfType<Car>();
+                    PrintMessage("\n+ All cars removed correctly +", MessageTypeEnum.Success);
                     break;
                 case '2':
-                    var trucks = vehicles.ToList().Where(x => x is Truck);
-                    foreach (var truck in trucks)
+                    var truck = vehicles.ToList().OfType<Truck>().FirstOrDefault();
+                    if (truck == null)
                     {
-                        vehicles.Remove(truck);
+                        PrintMessage("\n! Error: Already no trucks in the list!", MessageTypeEnum.Error);
+                        return;
                     }
-                    PrintMessage("+ Removed correctly +", MessageTypeEnum.Success);
+                    vehicles.RemoveAllOfType<Truck>();
+                    PrintMessage("+ All trucks removed correctly +", MessageTypeEnum.Success);
                     break;
                 case '3':
-                    var bikes = vehicles.ToList().Where(x => x is Bike);
-                    foreach (var bike in bikes)
+                    var bike = vehicles.ToList().OfType<Bike>().FirstOrDefault();
+                    if (bike == null)
                     {
-                        vehicles.Remove(bike);
+                        PrintMessage("! Error: Already no bikes in the list!", MessageTypeEnum.Error);
+                        return;
                     }
-                    PrintMessage("+ Removed correctly +", MessageTypeEnum.Success);
+                    vehicles.RemoveAllOfType<Bike>();
+                    PrintMessage("+ All bikes removed correctly +", MessageTypeEnum.Success);
                     break;
                 default:
                     break;
@@ -412,7 +418,7 @@ namespace Demo2
 
         private static void AddBike(ICollection<Vehicle> vehicles)
         {
-            var id = GetNewID(vehicles);
+            Bike bike = new();
             GetCommonProperties(out string maker, out string plate);
             Console.WriteLine("Insert the number of gears:");
             var stringGears = Console.ReadLine();
@@ -421,14 +427,17 @@ namespace Demo2
                 PrintMessage("! ERROR: Gears must be an int value!", MessageTypeEnum.Error);
                 return;
             }
-            var bike = new Bike(id, maker, plate, gears);
+            bike.ID = GetNewID(vehicles);
+            bike.Maker = maker;
+            bike.Plate = plate;
+            bike.Gears = gears;
             vehicles.Add(bike);
             PrintMessage("+ Added Correctly +", MessageTypeEnum.Success);
         }
 
         private static void AddTruck(ICollection<Vehicle> vehicles)
         {
-            var id = GetNewID(vehicles);
+            Truck truck = new();
             GetCommonProperties(out string maker, out string plate);
             Console.WriteLine("Insert the number of axes:");
             var stringAxes = Console.ReadLine();
@@ -437,14 +446,17 @@ namespace Demo2
                 PrintMessage("! ERROR: Axes must be an int value!", MessageTypeEnum.Error);
                 return;
             }
-            var truck = new Truck(id, maker, plate, axes);
+            truck.ID = GetNewID(vehicles);
+            truck.Maker = maker;
+            truck.Plate = plate;
+            truck.Axes = axes;
             vehicles.Add(truck);
             PrintMessage("+ Added Correctly +", MessageTypeEnum.Success);
         }
 
         private static void AddCar(ICollection<Vehicle> vehicles)
         {
-            var id = GetNewID(vehicles);
+            Car car = new();
             GetCommonProperties(out string maker, out string plate);
             Console.WriteLine("Insert the number of seats:");
             var stringSeats = Console.ReadLine();
@@ -453,7 +465,10 @@ namespace Demo2
                 PrintMessage("! ERROR: Seats must be an int value!", MessageTypeEnum.Error);
                 return;
             }
-            var car = new Car(id, maker, plate, seats);
+            car.ID = GetNewID(vehicles);
+            car.Maker = maker;
+            car.Plate = plate;
+            car.Seats = seats;
             vehicles.Add(car);
             PrintMessage("+ Added Correctly +", MessageTypeEnum.Success);
         }
