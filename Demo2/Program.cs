@@ -40,14 +40,51 @@ namespace Demo2
                         DeleteVehicle(vehicles);
                         break;
                     case '6':
-                        SaveToXML(vehicles);
+                        DeleteTypeOfVehicles(vehicles);
                         break;
                     case '7':
+                        SaveToXML(vehicles);
+                        break;
+                    case '8':
                         await SaveToJsonAsync(vehicles);
                         break;
                     default:
                         break;
                 }
+            }
+        }
+
+        private static void DeleteTypeOfVehicles(ICollection<Vehicle> vehicles)
+        {
+            Console.WriteLine("\nPress 1 to DEL all CARS, 2 to DEL all TRUCKS, 3 to DEL all BIKES:");
+            switch (Console.ReadKey().KeyChar)
+            {
+                case '1':
+                    var cars = vehicles.ToList().Where(x => x is Car);
+                    foreach (var car in cars)
+                    {
+                        vehicles.Remove(car);
+                    }
+                    PrintMessage("+ Removed correctly +", MessageTypeEnum.Success);
+                    break;
+                case '2':
+                    var trucks = vehicles.ToList().Where(x => x is Truck);
+                    foreach (var truck in trucks)
+                    {
+                        vehicles.Remove(truck);
+                    }
+                    PrintMessage("+ Removed correctly +", MessageTypeEnum.Success);
+                    break;
+                case '3':
+                    var bikes = vehicles.ToList().Where(x => x is Bike);
+                    foreach (var bike in bikes)
+                    {
+                        vehicles.Remove(bike);
+                    }
+                    PrintMessage("+ Removed correctly +", MessageTypeEnum.Success);
+                    break;
+                default:
+                    break;
             }
         }
 
@@ -211,10 +248,7 @@ namespace Demo2
         private static void ModifyBike(Vehicle v)
         {
             Console.WriteLine("\n********* Modifying a BIKE *********");
-            Console.WriteLine("Insert the maker:");
-            var maker = Console.ReadLine().Trim();
-            Console.WriteLine("Insert the plate:");
-            var plate = Console.ReadLine().Trim();
+            GetCommonProperties(out string maker, out string plate);
             Console.WriteLine("Insert the number of gears:");
             var stringGears = Console.ReadLine();
             if (!Int32.TryParse(stringGears, out int gears))
@@ -232,10 +266,7 @@ namespace Demo2
         private static void ModifyTruck(Vehicle v)
         {
             Console.WriteLine("\n********* Modifying a TRUCK *********");
-            Console.WriteLine("Insert the maker:");
-            var maker = Console.ReadLine().Trim();
-            Console.WriteLine("Insert the plate:");
-            var plate = Console.ReadLine().Trim();
+            GetCommonProperties(out string maker, out string plate);
             Console.WriteLine("Insert the number of axes:");
             var stringAxes = Console.ReadLine();
             if (!Int32.TryParse(stringAxes, out int axes))
@@ -254,10 +285,7 @@ namespace Demo2
         private static void ModifyCar(Vehicle v)
         {
             Console.WriteLine("\n********* Modifying a CAR *********");
-            Console.WriteLine("Insert the maker:");
-            var maker = Console.ReadLine().Trim();
-            Console.WriteLine("Insert the plate:");
-            var plate = Console.ReadLine().Trim();
+            GetCommonProperties(out string maker, out string plate);
             Console.WriteLine("Insert the number of seats:");
             var stringSeats = Console.ReadLine();
             if (!Int32.TryParse(stringSeats, out int seats))
@@ -384,10 +412,7 @@ namespace Demo2
         private static void AddBike(ICollection<Vehicle> vehicles)
         {
             var id = GetNewID(vehicles);
-            Console.WriteLine("\nInsert the maker:");
-            var maker = Console.ReadLine().Trim();
-            Console.WriteLine("Insert the plate:");
-            var plate = Console.ReadLine().Trim();
+            GetCommonProperties(out string maker, out string plate);
             Console.WriteLine("Insert the number of gears:");
             var stringGears = Console.ReadLine();
             if (!Int32.TryParse(stringGears, out int gears))
@@ -403,10 +428,7 @@ namespace Demo2
         private static void AddTruck(ICollection<Vehicle> vehicles)
         {
             var id = GetNewID(vehicles);
-            Console.WriteLine("\nInsert the maker:");
-            var maker = Console.ReadLine().Trim();
-            Console.WriteLine("Insert the plate:");
-            var plate = Console.ReadLine().Trim();
+            GetCommonProperties(out string maker, out string plate);
             Console.WriteLine("Insert the number of axes:");
             var stringAxes = Console.ReadLine();
             if (!Int32.TryParse(stringAxes, out int axes))
@@ -422,10 +444,7 @@ namespace Demo2
         private static void AddCar(ICollection<Vehicle> vehicles)
         {
             var id = GetNewID(vehicles);
-            Console.WriteLine("\nInsert the maker:");
-            var maker = Console.ReadLine().Trim();
-            Console.WriteLine("Insert the plate:");
-            var plate = Console.ReadLine().Trim();
+            GetCommonProperties(out string maker, out string plate);
             Console.WriteLine("Insert the number of seats:");
             var stringSeats = Console.ReadLine();
             if (!Int32.TryParse(stringSeats, out int seats))
@@ -436,6 +455,14 @@ namespace Demo2
             var car = new Car(id, maker, plate, seats);
             vehicles.Add(car);
             PrintMessage("+ Added Correctly +", MessageTypeEnum.Success);
+        }
+
+        private static void GetCommonProperties(out string maker, out string plate)
+        {
+            Console.WriteLine("\nInsert the maker:");
+            maker = Console.ReadLine().Trim();
+            Console.WriteLine("Insert the plate:");
+            plate = Console.ReadLine().Trim();
         }
 
         private static int GetNewID(ICollection<Vehicle> vehicles)
@@ -469,8 +496,9 @@ namespace Demo2
             Console.WriteLine("* Press 3 to PRINT a specific type of vehicle  *");
             Console.WriteLine("* Press 4 to MODIFY a vehicle                  *");
             Console.WriteLine("* Press 5 to REMOVE a vehicle                  *");
-            Console.WriteLine("* Press 6 to SAVE the list on XML file         *");
-            Console.WriteLine("* Press 7 to SAVE the list on JSON file        *");
+            Console.WriteLine("* Press 6 to REMOVE a specific type of vehicle *");
+            Console.WriteLine("* Press 7 to SAVE the list on XML file         *");
+            Console.WriteLine("* Press 8 to SAVE the list on JSON file        *");
             Console.WriteLine("* Press 0 to EXIT                              *");
             Console.WriteLine("*----------------------------------------------*");
             Console.Write("Choice --->\t");

@@ -89,10 +89,12 @@ namespace Demo2
         public Bike()
         {
         }
+
         public override string ToString()
         {
             return $"Bike | ID: {ID} - Maker: {Maker} - Plate: {Plate} - Gears: {Gears}";
         }
+
         public override void Sound()
         {
             Console.WriteLine("**BELL**");
