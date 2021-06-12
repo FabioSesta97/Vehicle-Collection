@@ -1,5 +1,26 @@
 {
-  "Cars": [],
-  "Trucks": [],
-  "Bikes": []
+  "Cars": [
+    {
+      "Seats": 2,
+      "ID": 1,
+      "Maker": "Ferrari",
+      "Plate": "bb900as"
+    }
+  ],
+  "Trucks": [
+    {
+      "Axes": 2,
+      "ID": 2,
+      "Maker": "Fiat",
+      "Plate": "sd000sd"
+    }
+  ],
+  "Bikes": [
+    {
+      "Gears": 5,
+      "ID": 3,
+      "Maker": "Bianchi",
+      "Plate": "22dd"
+    }
+  ]
 }

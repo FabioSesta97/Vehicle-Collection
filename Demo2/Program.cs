@@ -494,7 +494,7 @@ namespace Demo2
         private static int MenuLoop()
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("\n*-----------------------MENU-----------------------*");
+            Console.WriteLine("\n*------------------------MENU------------------------*");
             Console.WriteLine("* Press 1 to ADD a vehicle                           *");
             Console.WriteLine("* Press 2 to PRINT all vehicles                      *");
             Console.WriteLine("* Press 3 to PRINT a specific type of vehicle        *");

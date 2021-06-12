@@ -1,6 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <vehicles>
-  <cars />
-  <trucks />
-  <bikes />
+  <cars>
+    <car>
+      <id>1</id>
+      <maker>Ferrari</maker>
+      <plate>bb900as</plate>
+      <seats>2</seats>
+    </car>
+  </cars>
+  <trucks>
+    <truck>
+      <id>2</id>
+      <maker>Fiat</maker>
+      <plate>sd000sd</plate>
+      <axes>2</axes>
+    </truck>
+  </trucks>
+  <bikes>
+    <bike>
+      <id>3</id>
+      <maker>Bianchi</maker>
+      <plate>22dd</plate>
+      <gears>5</gears>
+    </bike>
+  </bikes>
 </vehicles>
